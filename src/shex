@@ -1,0 +1,36 @@
+#!/bin/bash
+# Self-Extracting tarball creator for GNU/Linux
+# Return codes:
+#        1 - Usage error
+#        2 - Folder not specified
+
+SCRIPT=
+DIR=
+
+while getopts :s: OPTION
+do
+   case $OPTION in
+      s)
+         SCRIPT=$OPTARG  
+      ;;
+      ?)
+         echo "Err"
+         exit 1;
+      ;;
+   esac
+done
+shift $(($OPTIND -1))
+
+DIR=$1
+
+if [ -z $DIR ]
+then
+   echo "Please specify the directory to be archived.";
+   exit 1;
+fi
+
+if [ ! -z $SCRIPT ]
+then
+   SCRIPT="&& ./$DIR/$SCRIPT";
+fi
+
